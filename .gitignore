@@ -1,12 +1,32 @@
+# Environment files
 .env
-node_modules/
+server/.env
+
+# Node modules
+server/node_modules/
+
+# Logs and caches
 npm-debug.log*
-dist/
-build/
-.DS_Store
-.vscode/
 .cache/
-tmp/
-temp/
 .eslintcache
 .prettiercache
+server/npm-debug.log*
+server/.cache/
+server/.eslintcache
+server/.prettiercache
+
+# Build directories
+dist/
+build/
+server/dist/
+server/build/
+
+# Miscellaneous
+.DS_Store
+.vscode/
+tmp/
+temp/
+server/.DS_Store
+server/.vscode/
+server/tmp/
+server/temp/
