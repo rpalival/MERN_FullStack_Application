@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src"
+    },
+    "include": ["src"]
+}
+// easier to import files by getting rid of ./ and ../ stuff like that in file imports
