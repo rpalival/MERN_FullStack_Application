@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 import './index.css';
 import App from './App';
 
 // Redux Imports
 import authReducer from "./state";
-import { configureStore } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from 'react-redux';
 // Redux persist imports only if you are using redux-persist
 // Redux persist lets you store state data into local storage so that client can close his tabs
@@ -18,7 +18,7 @@ import {
     PAUSE,
     PERSIST,
     PURGE,
-    REGISTER
+    REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
