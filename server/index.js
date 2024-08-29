@@ -1,13 +1,15 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import helmet from 'helmet';
 import morgan from 'morgan';
+
+// native packages for node
 import path from 'path';
 import { fileURLToPath } from 'url';
+
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import postRoutes from "./routes/posts.js";
@@ -20,17 +22,22 @@ import { users, posts } from "./data/index.js";
 
 
 // configurations
+
+// So in this case, we are getting the directory path of the current file.
+// have to do this when we are using type = module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const app = express();
 dotenv.config();
 
-app.use(express.json());
+const app = express();
+
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin"}));
 app.use(morgan("common"));
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+// app.use(bodyParser.json({ limit: "30mb", extended: true })); // so incoming request will be limited to 30mb
+// app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(express.json({ limit: "30mb" }));
+app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, 'public/assets'))); //so in real life this would be stored in cloud but for now we store the images locally
 
@@ -59,7 +66,7 @@ app.use("/posts", postRoutes);
 const PORT = process.env.PORT || 6001;
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
-        app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+        app.listen(PORT, () => console.log(`Connected to database and listening on Server Port: ${PORT}`));
         // Add this data only once
         // User.insertMany(users);
         // Post.insertMany(posts);

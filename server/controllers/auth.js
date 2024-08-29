@@ -4,6 +4,7 @@ import User from "../models/User.js";
 
 // REGISTER USER
 export const register = async (req, res) => {
+    console.log(req.body)
     try {
         const {
             firstName,
@@ -28,15 +29,18 @@ export const register = async (req, res) => {
             friends,
             location,
             occupation,
-            viewedProfile: Math.floor(Math.random() * 10000),
-            impressions: Math.floor(Math.random() * 10000)
+            // not writing logic for this yet, hence hardcoding random value
+            viewedProfile: Math.floor(Math.random() * 1000),
+            impressions: Math.floor(Math.random() * 1000)
         });
         const savedUser = await newUser.save();
-        res.status(201).json(savedUser); //this is how we send the savedUser data to the frontend in json format and response code 201
+        const savedUserObj = savedUser.toObject();
+        res.status(201).json({savedUserObj: savedUserObj});
+
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err.message })
     }
-};
+}
 
 // LOGGING IN
 // FYI: in a company either you will have a 3rd party authentication or a team that does the authentication.
@@ -51,20 +55,28 @@ export const register = async (req, res) => {
     Returning the token and user information (without the password) in the response.
     Handling errors appropriately by sending error messages in the response.
 */
+
 export const login = async (req, res) => {
-    try{
+    try {
         const { email, password } = req.body;
+    
         const user = await User.findOne({ email: email });
-        if (!user) return res.status(400).json({ msg: "User does not exist. "});
-
+        if(!user) return res.status(400).json({ msg: "user does not exist" });
+    
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. "});
-
+        if(!isMatch) return res.status(400).json({ msg: "Invalid credentials "});
+    
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        delete user.password; // so that it doesn't get sent back to frontend
-        res.status(200).json({ token, user });
 
+        // had to convert to javascript object before deleting the password coz mongoose only stores it as a instance of document class
+        const userObj = user.toObject();
+        delete userObj.password;
+    
+        res.status(200).json({token, user: userObj});
+        
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err.message })
     }
+    
+
 }
