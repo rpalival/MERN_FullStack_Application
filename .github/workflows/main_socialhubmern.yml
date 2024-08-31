@@ -39,7 +39,6 @@ jobs:
 
       - name: Zip files for deployment
         run: |
-          cd server
           zip -r ../release/release.zip
 
       - name: Upload artifact for deployment job
