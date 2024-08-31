@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 
 // Redux Imports
-import authReducer from "./state";
 import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./state";
 import { Provider } from 'react-redux';
 // Redux persist imports only if you are using redux-persist
 // Redux persist lets you store state data into local storage so that client can close his tabs
@@ -25,6 +25,7 @@ import { PersistGate } from "redux-persist/integration/react";
 
 const persistConfig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConfig, authReducer);
+
 const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
