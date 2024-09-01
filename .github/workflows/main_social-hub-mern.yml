@@ -77,4 +77,8 @@ jobs:
           app-name: 'social-hub-mern'
           slot-name: 'Production'
           package: .
+      
+      - name: Set startup command
+        run: |
+          az webapp config set --name social-hub-mern --resource-group resume-projects-mern-rg --startup-file "node server/index.js"
           
