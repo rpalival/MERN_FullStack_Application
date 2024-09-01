@@ -83,6 +83,6 @@ jobs:
           az webapp config set --name social-hub-mern --resource-group resume-projects-mern-rg --startup-file "node server/index.js"
 
       - name: Install backend dependencies on server
-      run: |
-        az webapp ssh --name social-hub-mern --resource-group resume-projects-mern-rg --command "cd server && npm install"
+        run: |
+          az webapp ssh --name social-hub-mern --resource-group resume-projects-mern-rg --command "cd server && npm install"
           
