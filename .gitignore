@@ -17,7 +17,6 @@ server/.prettiercache
 
 # Build directories
 dist/
-build/
 server/dist/
 server/build/
 
